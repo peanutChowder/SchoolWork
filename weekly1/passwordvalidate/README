@@ -1,0 +1,1 @@
+passwordvalidate is a file consisting of two functions, validate and generate. The former will check the validity and security of a given password, whereas the latter will randomly generate a secure password according to given criteria. 
