@@ -130,5 +130,4 @@ if __name__ == "__main__":
     # when the program is called directly from the terminal
     # using "python3 validator.py". This can be useful for
     # testing your implementations.
-    print(generate(8))
-
+    pass
