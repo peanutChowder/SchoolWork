@@ -1,3 +1,5 @@
-a = "2143"
+import random
 
-print(a.isupper())
+
+letter = chr(random.randrange(48, 58))
+print(letter)
