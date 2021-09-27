@@ -23,7 +23,7 @@ def biased_rolls(prob_list, s, n):
     """
     
     # Create list of len s to track dice rolls
-    rolls = [0 for side in prob_list]
+    rolls = []
 
     random.seed(s)
 
@@ -38,7 +38,7 @@ def biased_rolls(prob_list, s, n):
         # Check whether rollFloat falls within probability intervals. If so, add one to the corresponding side
         for sideIndex in range(len(prob_list)):
             if rollFloat < prob_list[sideIndex]:
-                rolls[sideIndex] += 1
+                rolls.append(sideIndex + 1)
                 break
         
     # return the resulting rolls
