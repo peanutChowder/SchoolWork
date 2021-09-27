@@ -22,7 +22,7 @@ def biased_rolls(prob_list, s, n):
                biased die, in the order they were generated.
     """
     
-    # Create list of len s to track dice rolls
+    # Create list to track dice roll results
     rolls = []
 
     random.seed(s)
@@ -59,18 +59,34 @@ def draw_histogram(m, rolls, width):
     Returns:
         None (but prints the histogram to standard output)
     """
-    # solve the problem here by replacing the pass keyword
-    pass
+    # Create list to track number of lands for each side
+    timesLanded = [0 for side in range(m)]
+    # Create list for number of lands but largest number is the given int width
+    landingsCondensed = []
 
-    # this function should print to standard output
-    # you should not return anything!
+    for landing in rolls:
+        timesLanded[landing - 1] += 1
 
+    maxLanded = max(timesLanded)
+
+    for landedNum in timesLanded:
+        condensedNum = (landedNum / maxLanded) * width
+        landingsCondensed.append(round(condensedNum))
+
+    print(f"Frequency Histogram: {m}-sided Die")
+
+    for sideIndex in range(m):
+        frequency = landingsCondensed[sideIndex]
+        print(str(sideIndex + 1) + ".", end="")
+        print("#" * frequency + "-" * (width - frequency))
 
 if __name__ == "__main__":
     # Any code indented under this line will only be run
     # when the program is called directly from the terminal
     # using "python3 unfairDice.py". This can be useful for
     # testing your implementations.
-    print(biased_rolls([1/4 , 1/6 , 1/12 , 1/12 , 1/4 , 1/6] , 45 , 200))
-    print(biased_rolls([1/4 , 1/6 , 1/12] , 22 , 200))
+    rolls = biased_rolls([1/3, 1/3, 1/3], (2**32)-1, 1000)
+    draw_histogram(3, rolls, 10)
+
+
 
