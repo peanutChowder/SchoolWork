@@ -1,0 +1,2 @@
+Frequency Histogram: 1-sided Die
+1.#####

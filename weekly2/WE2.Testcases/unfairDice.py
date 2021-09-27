@@ -72,4 +72,5 @@ if __name__ == "__main__":
     # using "python3 unfairDice.py". This can be useful for
     # testing your implementations.
     print(biased_rolls([1/4 , 1/6 , 1/12 , 1/12 , 1/4 , 1/6] , 45 , 200))
+    print(biased_rolls([1/4 , 1/6 , 1/12] , 22 , 200))
 

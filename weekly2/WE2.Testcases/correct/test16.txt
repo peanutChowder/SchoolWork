@@ -1,0 +1,6 @@
+Frequency Histogram: 5-sided Die
+1.###
+2.##-
+3.---
+4.---
+5.---

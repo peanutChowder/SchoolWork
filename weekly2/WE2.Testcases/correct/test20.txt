@@ -1,0 +1,3 @@
+Frequency Histogram: 2-sided Die
+1.##
+2.#-

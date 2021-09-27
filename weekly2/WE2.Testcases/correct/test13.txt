@@ -1,0 +1,4 @@
+Frequency Histogram: 3-sided Die
+1.##########
+2.##########
+3.#########-
