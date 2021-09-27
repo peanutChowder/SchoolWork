@@ -1,0 +1,23 @@
+####################################################
+Jacob Feng, ID: 1591656
+CMPUT274, Fall 2021
+
+Weekly Exercise 2: Unfair Dice
+####################################################
+Description
+
+unfair_dice.py contains two functions, biased_rolls and draw_histogram. biased_rolls will return a list of dice landings when given a 2+ sided die, a seed, and a list of probabilities for landing on each side. 
+draw_histogram prints a text-based visualization of landing frequency for each side when given a list of all the sides the die has landed on.
+
+####################################################
+Requirements 
+
+Both functions require explicit calling (i.e. there is no main function). 
+biased_rolls:
+	- given sides must be >= 2 in the given list m
+	- prob_list must have exactly m elements, and the sum of its elements must be 1
+	- the elements in prob_list must be a float ranging from 0 to 1
+draw_histogram: 
+	- the rolls list must contain only int values ranging from 1 to m, the number of sides on the die
+
+####################################################

@@ -64,17 +64,19 @@ def draw_histogram(m, rolls, width):
     # Create list for number of lands but largest number is the given int width
     landingsCondensed = []
 
+    # Get the frequency of each landing
     for landing in rolls:
         timesLanded[landing - 1] += 1
 
     maxLanded = max(timesLanded)
 
+    # Get a proportional representation of landings where width is the maximum value
     for landedNum in timesLanded:
         condensedNum = (landedNum / maxLanded) * width
         landingsCondensed.append(round(condensedNum))
 
+    # Display histogram
     print(f"Frequency Histogram: {m}-sided Die")
-
     for sideIndex in range(m):
         frequency = landingsCondensed[sideIndex]
         print(str(sideIndex + 1) + ".", end="")
