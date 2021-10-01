@@ -1,0 +1,25 @@
+####################################################
+Jacob Feng, ID: 1591656
+CMPUT274, Fall 2021
+
+Weekly Exercise 2: Word Frequency
+####################################################
+Description
+
+freq.py is a self-containing file in which the appropriate functions will be called from the main function (i.e. Call the file itself and do not import functions separately). 
+
+The purpose of freq.py is to obtain a word count of every unique word, as well as determining a word count ratio. The word count ratio ranges from 0-1 and represents the word count of a unique word divided by the file's total word count. The file is to be called with a text file in the same directory containing the desired words to be analyzed. 
+
+The program will output the results in the format of [word] [word_count] [word_count_ratio], organized alphabetically, to a file with the same name suffixed with ".out". 
+
+####################################################
+Requirements 
+
+The input text file is expected to be in the same directory as that of freq.py
+	- if the input file is in a different directory, the program will output an error message and exit
+
+The program does not account for punctuation and other adjacent characters
+	- e.g. within the sentence "hello, my name is", "hello," will be recognized as a word despite the comma not being part of the word hello
+	- any sequence of adjacent characters will be recognized as a word
+
+####################################################
