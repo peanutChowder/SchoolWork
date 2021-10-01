@@ -1,0 +1,128 @@
+CMPUT 274/5 - Tangible Computing                                             Version 2.0-21
+
+Weekly Exercise #3
+
+
+                                    Word Frequency
+
+
+
+In this assignment, you will perform frequency analysis on words in an input text. You will
+
+read in a text from an input file provided as a command-line argument, divide the text into
+
+individual words, and write a sorted frequency table to an output file.
+
+
+
+
+                       Your Task, Part 1: Frequency Analysis
+
+Write a program called freq.py that will perform text analysis on an input text using all of
+
+the following steps:
+
+  1. Take the name of an input file called <input_file_name> as a command line argument.
+
+     For example, your program might be called using
+
+     python3 freq . py example
+
+
+     to direct you to process a plain text file called example. More information is given on
+
+     how to do this below.
+
+  2. Read the contents of the file into your program and divide the text into a list of
+
+     individual, space-separated words (for our purposes, a word is any sequence of non-
+
+     blank characters).
+
+  3. Analyze the word list to count the number of times each word appears in the text.
+
+     Hint: You may want to use a dictionary to store and track the counts.
+
+  4. When the counting is finished, your program should write a frequency table of each
+
+     word, its count, and its relative frequency to an output file. The frequency table must
+
+     be sorted in lexicographic order (alphabetical with uppercase words first)
+
+     by word in the text. You may want to look up the sorted function to help you with
+
+     this. Each line in the frequency table should look like:
+
+
+                                        word count freq
+
+
+     where
+
+       • word is the word in the text
+     You must write this frequency table to an output file. The output file must have
+
+     the name input_file_name + “.out”. For example, in the example above, the
+matches the expected output exactly using the diff command. This command allows you
+
+to compare files line-by-line.
+
+
+Example Usage (to compare file1 and file2):
+
+diff file1 file2
+
+If the diff command returns nothing, the files have the same contents. You may also want
+
+to type “man diff” into the terminal to read the documentation of diff.
+If you wish to do additional error handling, such as checking that the filename is a string or
+
+that it exists in the directory, you may do so. However, it is not required and will not result
+
+in either additional marks or deductions.
+
+
+
+Design and Style:
+
+
+In your final submission:
+
+  1. Although we will not be adding/deducting marks for it, we expect you to produce
+
+     modular, well-designed code. This means creating one function to do each job
+
+     (there are multiple jobs in this assignment and you should not use only one function!).
+
+     You are responsible in this exercise for determining how to structure your code to follow
+
+     this requirement, and you may determine on your own which functions to create. We
+
+     highly recommend getting feedback from a TA or instructor (e.g., during office hours
+
+     or class) on your code’s modularity.
+Submission Guidelines:
+
+
+Submit all of the required files (and no other files) as one properly formed compressed
+
+archive called either freq.tar.gz, or freq.tgz, or freq.zip (for full marks, please do not
+
+use .rar):
+
+
+   • when your archive is extracted, it should result in exactly one directory called
+Marking Rubric:
+
+
+
+NOTE: The code must solve the problem algorithmically. If there is any hardcoding for the
+
+provided test cases, then zero Correctness marks will be given.
+
+
+
+This Weekly Exercise will be marked out of 100 for:
+
+
+   • Correctness: Meets all specifications, generates no extraneous output, requires no un-

@@ -1,0 +1,422 @@
+﻿How to set up Git with Secure Shell under the CMPUT 274 VM
+v1.5, by Paul Lu
+Latest edits:  Sep 22, 2021
+Originally: Sep 15, 2021
+
+
+NOTE:  In the past, we advocated the use of git with just HTTPS-based authentication for security because it was simpler and it was “good enough”.  Then, in August 2021, GitHub deprecated the use of HTTPS-based authentication (for read-write repositories, see below), which means we have to teach (and learn) both Secure Shell (SSH) authentication and git at the same time.  That’s a lot to learn at once.  Thus, we wrote this tutorial.
+	
+
+We are basing part of this material on the following (which includes even more tutorial information):
+
+
+https://docs.github.com/en/github/authenticating-to-github/connecting-to-github-with-ssh
+
+
+https://docs.github.com/en/github/authenticating-to-github/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent
+
+
+________________
+
+
+Part 1:  Boot the VM.  Install vim if you want.
+
+
+All of the following screenshots were made with a fresh copy of the course’s VM.  If you want to do all of this directly on top of MacOS or Windows (WSL=Windows Subsystem for Linux), it is all possible. But, I am not going to create more tutorials beyond this one based on the VM.  That’s one of the reasons we created the VM.  You can seek help with MacOS and Windows from a TA or an instructor, upon request.
+
+
+Boot up the VM until you see:
+
+
+  
+
+
+
+Log in.  I like vim, so I immediately install vim by opening a Terminal and executing:
+
+
+
+
+	$ sudo apt install vim 
+	
+
+
+
+  
+
+
+
+  
+
+
+
+________________
+
+
+Part 2:  Git clone the class’s read-only, shared repository (C274.Fall.2021.Share.Class.git)
+
+
+As discussed, one can clone the same repository multiple times (e.g., once inside VM-1, another clone inside a different VM image VM-2, and a third clone on the host operating system (OS), such as MacOS).  The git server does not (normally) keep track of all the clones.  And, files and deltas/updates only move between clones and repositories when we execute explicit commands (e.g., pull, push).
+
+
+Since clones of repositories are simply directories, one can also have multiple, different repository clones, each from different git servers, from different git identities, etc.  The hidden/invisible directory “.git” in each clone’s directory keeps track of which server and which repository to use.
+
+
+For now, let’s just clone the class’s shared repository via:
+
+
+
+
+	$ git clone https://github.com/paullu-teach/C274.Fall.2021.Share.Class.git
+	
+
+
+
+  
+
+
+
+
+
+Since that C274.Fall.2021.Share.Class.git repository is Public, also since students will only “read” (i.e., pull) from the repository, then the use of “https” is allowed by GitHub since there is no authentication required.
+
+
+A clone of a repository is just a normal Linux/Unix directory (aka folder) that we can “cd” into, and list the files.
+
+
+
+
+  
+
+
+
+________________
+
+
+Part 3:  Pulling updates into a read-only cloned repository
+
+
+After the initial cloning of a repository, any additional updates to files within the repository can be brought into the local clone (i.e., directory) using:
+
+
+
+
+
+
+	$ git pull 
+	
+
+
+
+  
+
+
+
+This repository is “read-only” because only the owner (Paul Lu) will ever add or change files in the repository.  Everyone else only pulls updates, so for everyone else, it is a read-only set of files.  If you try to push to this repository, you will get an error message.
+
+
+Note:  You can still perform commits (see below), but you will not be able to push them out.  For use cases that require pushing out updates, you should copy files into your personal read-write repository first (see below) and do edits, commits, and pushes in your read-write repository.
+
+
+If there are no updates to the repository, it will look like:
+
+
+
+
+	$ git pull
+Already up to date.
+	
+
+And no harm is done by doing a pull without any updates.
+
+
+Note that cloning only has to happen once (per clone), but pulls can be invoked multiple times on a cloned repository.
+
+
+
+
+________________
+
+
+Part 4:  Creating Secure Shell keys for read-write git repositories
+
+
+Everybody can create a private repository that is read-write for the owner (i.e., you).  This is what you use for your weekly exercises and assignments.  Once created, this kind of repository can be used for (1) file backups, (2) ease of moving (copies of) files between the VM and your host machines.
+
+
+With the change in GitHub security policies in August 2021, we must use Secure Shell keys, which are part of a well-known public-key authentication (you can Google that phrase) design.  A public-key system requires two keys, which are just two files with an encoded number in each one.  One key/file/number is the public key, which has no value to a hacker.  The second key/file/number is the private key, which is valuable to a hacker, so it should be protected with a passphrase and key as secret as possible.  The passphrase encrypts the private key file which provides a measure of security if the private key file is ever exposed or stolen.
+
+
+Following:  https://docs.github.com/en/github/authenticating-to-github/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent
+
+
+We create the two keys inside the VM using ssh-keygen:
+
+
+
+
+	$ ssh-keygen -t ed25519 -C “paullu@ualberta.ca”
+	
+
+  
+
+
+
+Note that Secure Shell and these keys are a separate system from git and GitHub.  In fact, these same keys can be used for other things, such as remote logins with “ssh”, remote copies with “rcp”, and remote file synchronization with “rsync”.  Although not covered in this tutorial, rcp and rsync are also valuable, alternative ways to backup your files.
+
+
+________________
+
+
+Part 5:  Uploading Secure Shell keys to GitHub for public-key authentication
+
+
+The keys are created and stored within the VM file system under directory /home/cmput274/.ssh (note the “.” in “.ssh”), and files (1) id_ed25519 and (2) id_ed25519.pub
+
+
+The .pub file is the public key, which we must now upload to GitHub using a Web browser.  We do NOT upload the private key anywhere.  The private key stays on the VM, and possibly on your host computer.
+
+
+NOTE:  The version of FireFox that comes within the “fresh” VM needs to be updated for GitHub.  Clearly, GitHub is becoming security conscious (which is good), but creates more work for us.  See end of this document for guidance on how to update all of the software within the VM.
+
+
+  
+
+
+
+After updating Firefox, we see:
+
+
+  
+
+
+
+Login to GitHub using the identity that you previously created.  Here I demonstrate this process with one of my accounts, paullu-teach, the same one used for the read-only sharing repository.  A GitHub identity/account can have multiple repositories and there can be a mix of read-only and read-write repositories.
+
+
+  
+
+
+
+
+
+Now, within the Web browser I will upload my public key (created above) to GitHub, which is what GitHub will use to authenticate (i.e., allow me/my software to prove my identity) to the system.
+
+
+I have to navigate to my account “Settings” → “SSH and GPG Keys”:
+
+
+  
+
+
+
+  
+
+
+
+Note that my “paullu-teach” account already has two SSH public keys uploaded.  So, this new key will be my third key.  Click on “New SSH key” at:
+
+
+  
+
+
+
+Give the new key a title or a name.
+
+
+  
+
+
+
+Then copy-and-paste the contents of the .pub file into the “Key” text box.
+
+
+  
+  
+
+
+
+To get:
+
+
+  
+
+
+
+Finish by clicking on “Add SSH key” to get:
+
+
+  
+
+
+
+Now, GitHub knows my public key.  With the private key still in “~/.ssh” on your VM’s file system, it becomes possible for you to use public-key authentication (instead of HTTPS-based authentication) with git and GitHub.
+
+
+
+
+________________
+
+
+Part 6:  Creating a read-write git repository for private use
+
+
+There are a variety of ways to create a new repository.  I recommend doing it using the web site.  So, login and click on “New” on the top-left of the page.
+
+
+  
+
+
+
+I strongly recommend making your read-write directories “Private”.  You can add a README file and other things.  Click on “Create Repository”.
+
+
+  
+
+
+
+Easiest way to get the locator for the new repository is to click on new repository (from your personal list of repositories) and click on the drop-down menu for “Code”.  Select the “SSH” option for locator (not “HTTPS”, not “GitHub CLI” for now).  Click on the clipboard icon.
+
+
+  
+
+
+
+In this example, the locator is “git@github.com:paullu-teach/DemoSSH.git”.  I often save this locator in a file somewhere (for easy cut-and-paste in the future).
+
+
+________________
+
+
+Part 7:  Cloning a read-write git repository
+
+
+Similar to the previous example, we can clone the new, read-write repository.  If you try this command, you will get an error message since it is a private repository, and you are not yet a “collaborator” for that repository.
+
+
+
+
+	$ git clone git@github.com:paullu-teach/DemoSSH.git
+	
+
+  
+
+
+
+Since the locator is for “SSH”, git and GitHub expects to perform public-key authentication.  Git interacts with your Ubuntu-based environment of the VM, finds your private key in the default location (i.e., ~/.ssh) and now asks for your passphrase.  It is safe (unless your VM has been hacked, which is low probability) to enter it in the dialog box below.  For convenience, you can select the “Automatically unlock this key….” option.   This is likely a front-end to the ssh-agent tool that you might have read about
+
+
+  
+
+
+
+Outside of the VM, you can set up your own ssh-agent.  See some of the tutorials from GitHub at the top of this document.  On my MacOS system, ssh-agent is already part of the MacOS Terminal.  I have no experience with ssh-agent on Windows or WSL.
+
+
+The first time you use Secure Shell to a new server, including with git, you will get a “Are you sure you want to continue connecting (yes/no)?” prompt.  This is normal and a safety feature against so-called “man in the middle” attacks.  Say “yes” and proceed.
+
+
+  
+
+
+
+Once authenticated, the git clone proceeds as expected.
+
+
+  
+
+
+
+________________
+
+
+Part 8:  Adding a file to a read-write git repository, committing, and pushing updates
+
+
+Here we show how one can edit a file (e.g., README).
+
+
+  
+  
+
+
+
+Commit the changes/edit with a (but we will see an error the first time):
+
+
+
+
+	$ git commit -a
+	
+
+
+
+  
+
+
+
+The first time you do a git commit in a “fresh” git environment (e.g., a fresh copy of the VM), there are global configuration values that need to be set using:
+
+
+
+
+
+
+	$ git config --global user.email “your@email.com”
+$ git config --global user.name “Your Name”
+	
+
+
+
+  
+
+
+
+Setting the global email and user name should not have to be repeated again, unless your start (again) with a fresh copy of the VM.
+
+
+Now, repeat the git commit, and provide a commit message.
+
+
+  
+  
+
+  
+
+
+
+After a commit, git tracks the changes (e.g., delta), but those deltas are still only on the local computer (i.e., the VM’s local file system).  So, one needs to do a:
+
+
+
+
+	$ git push
+	
+
+
+
+  
+  
+
+
+
+The fine-grained control of only moving data/deltas with explicit pushes (and pulls) is both a strength and weakness of git and version control.  Data only moves and changes when you want it to move.  But, if you forget to push and pull, it “appears” like your changes are missing.  
+
+
+And, of course, one can do a git pull (even if you are the only user of the read-write repository) if you are working on multiple computers, multiple VMs, etc.
+
+
+  
+
+
+
+________________
+
+
+Part 9:  Updating the software (and Firefox) inside the VM
+
+
+Short answer:  Use the “Software Update” application.
+
+
+Long answer:  To be inserted here..
