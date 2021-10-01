@@ -68,8 +68,11 @@ def getWordFrequency(contentList):
     wordCount = len(contentList)
 
     for word in contentList:
+        # Create key value pair for word if it does not already exist
         if word not in freqDict:
             freqDict[word] = [1, 0]
+
+        # Increment by one if word already exists as a key
         else:
             freqDict[word][0] += 1
 
@@ -90,6 +93,7 @@ def writeFreq(freqDict):
 
     alphabeticalKeys = sorted(freqDict.keys())
 
+    # Write stats for each word as a formatted string
     for key in alphabeticalKeys:
         file.write(f"{key} {freqDict[key][0]} {round(freqDict[key][1], 3)}\n")
 
