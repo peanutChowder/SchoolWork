@@ -13,6 +13,9 @@
 # Create your functions here and call them from under
 # if __name__ == "__main__"!
 
+def punctuationCorrection(word):
+    pass
+
 def getWords():
     """"""
     strWords = input()
