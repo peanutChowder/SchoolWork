@@ -13,6 +13,8 @@
 # Create your functions here and call them from under
 # if __name__ == "__main__"!
 
+import sys
+
 def isStopword(word):
     stopwords = ["i", "me", "my", "myself", "we", "our", "ours", "ourselves", "you", "your", 
         "yours", "yourself", "yourselves", "he", "him", "his", "himself", "she", "her", 
@@ -42,29 +44,72 @@ def removeSymbols(word):
 
     return noSymbolWord
 
+def removeSingleNums(noSymbolWord):
+    noNumWord = ""
+    for letter in noSymbolWord:
+        if not letter.isnumeric():
+            noNumWord += letter
 
-def preProcessWord(word):
+    return noNumWord
+
+
+def preProcessWord(word, mode):
+    # Turn all chars to lowercase in word if possible
     word = word.lower()
-    processedWord = ""
 
-    noSymbolWord = removeSymbols(word)
+    # Remove symbol chars if keep-symbols mode off
+    if mode != "keep-symbols":
+        word = removeSymbols(word)
 
-    if isStrNum(noSymbolWord):
-        return noSymbolWord
+    # Return entire token if completely composed of numbers
+    if isStrNum(word):
+        return word
 
-    if isStopword(noSymbolWord):
+    # Return empty str if keep-symbols mode off and str is stopword
+    if mode != "keep-stops" and isStopword(word):
         return ""
 
-    for letter in word:
-        if letter.isalpha():
-            processedWord += letter
-
-    return processedWord
+    # Remove all numbers from word if keep-digits mode is off
+    if mode != "keep-digits":
+        return removeSingleNums(word)
+    else:
+        return word
 
 def getWords():
-    """"""
+    """ Takes a one line input of space delimited tokens (words) and returns the tokens in a list without spaces.
+
+    Arguments:
+        none
+
+    Returns:
+        (list): List of inputted tokens with no spaces
+    """
     strWords = input()
     return strWords.split()
+
+def validMode():
+    modes = ["keep-digits", "keep-stops", "keep-symbols"]
+    modesStr = ", ".join(modes)
+    
+    try:
+        if sys.argv[1] not in modes:
+            print("Error: Invalid mode selected.")
+            print(f"Try: 'python3 preprocess.py [mode]', where mode is one of {modesStr}.")
+            return False
+
+    except IndexError:
+        return True
+
+    else:
+        return True
+
+def getMode():
+    try:
+        return sys.argv[1]
+    except IndexError:
+        return None
+
+
 
 if __name__ == "__main__":
     # Any code indented under this line will only be run
@@ -72,10 +117,15 @@ if __name__ == "__main__":
     # using "python3 preprocess.py". This is directly relevant 
     # to this exercise, so you should call your code from here.
 
+    if not validMode():
+        sys.exit()
+
+
     words = getWords()
+    mode = getMode()
     processedWordsList = []
     for word in words:
-        processedWord = preProcessWord(word)
+        processedWord = preProcessWord(word, mode)
 
         if processedWord:
             processedWordsList.append(processedWord)

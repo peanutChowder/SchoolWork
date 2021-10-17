@@ -1,0 +1,2 @@
+Error: Invalid mode selected.
+Try: 'python3 preprocess.py [mode]', where mode is one of keep-digits, keep-stops, keep-symbols.
