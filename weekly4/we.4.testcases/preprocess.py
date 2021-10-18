@@ -1,21 +1,22 @@
 #--------------------------------------------
-#   Name: 
-#   ID: 
+#   Name: Jacob Feng
+#   ID: 1591656
 #   CMPUT 274, Fall 2021
 #
 #   Weekly Exercise #4: Text Preprocessor
 #-------------------------------------------- 
 
-# NOTE:  Make sure all of your functions are properly documents
-#   (e.g., with docstrings)
-
-# You must determine how to structure your solution.
-# Create your functions here and call them from under
-# if __name__ == "__main__"!
-
 import sys
 
 def isStopword(word):
+    """ Returns bool of whether the given string parameter is a stopword. Note that the parameter must be in lowercase.
+
+    Arguments:
+        word (str): lowercase string of the word to check
+
+    Returns:
+        (boolean): bool value of whether the word is a stopword
+    """
     stopwords = ["i", "me", "my", "myself", "we", "our", "ours", "ourselves", "you", "your", 
         "yours", "yourself", "yourselves", "he", "him", "his", "himself", "she", "her", 
         "hers", "herself", "it", "its", "itself", "they", "them", "their", "theirs", 
@@ -33,9 +34,24 @@ def isStopword(word):
     return word in stopwords
 
 def isStrNum(word):
+    """ Returns bool of whether the given string is fully composed of numeric digits.
+
+    Arguments:
+        word (str): string of the word to check
+
+    Returns:
+        (boolean): bool value of whether the string is only numeric digits"""
     return word.isnumeric()
 
 def removeSymbols(word):
+    """ Removes symbolic characters from a given string.
+
+    Arguments:
+        word (str): string of the word to remove symbols from
+
+    Returns:
+        noSymbolWord (str): new string of the given word without symbols
+    """
     noSymbolWord = ""
 
     for letter in word:
@@ -44,9 +60,17 @@ def removeSymbols(word):
 
     return noSymbolWord
 
-def removeSingleNums(noSymbolWord):
+def removeNums(word):
+    """ Removes all numeric digits from the given string.
+
+    Arguments:
+        word (str): string of the word to remove numeric digits from
+
+    Returns:
+        noNumWord (str): new string of the original word without numeric digits
+    """
     noNumWord = ""
-    for letter in noSymbolWord:
+    for letter in word:
         if not letter.isnumeric():
             noNumWord += letter
 
@@ -54,6 +78,18 @@ def removeSingleNums(noSymbolWord):
 
 
 def preProcessWord(word, mode):
+    """ Performs preprocessing on a given word. When no mode is given, all symbols, stopwords, and numeric digits are removed
+    (unless the string is only composed of numeric digits). Symbol, stopword, and numeric digits can be turned off one at a time 
+    via the mode parameter. Note that the mode parameter must match a string literal exactly (i.e. case sensitive).
+
+    Arguments:
+        word (str): string of the word to perform preprocessing on
+        mode (str): string of the specific preprocessing mode to use
+
+    Returns:
+        word (str): string of the preprocessed word or an empty string if the given word argument is a stopword and keep-stops mode
+                    is not selected
+    """
     # Turn all chars to lowercase in word if possible
     word = word.lower()
 
@@ -71,7 +107,7 @@ def preProcessWord(word, mode):
 
     # Remove all numbers from word if keep-digits mode is off
     if mode != "keep-digits":
-        return removeSingleNums(word)
+        return removeNums(word)
     else:
         return word
 
@@ -87,7 +123,16 @@ def getWords():
     strWords = input()
     return strWords.split()
 
-def validMode():
+def isValidMode():
+    """ Check if the user inputted command line mode is an existing mode. Returns bool of whether mode is a valid mode. 
+    Returns False and prints error message if mode is not found within modes list.
+
+    Arguments:
+        none
+
+    Returns:
+        (bool): bool of whether the selected mode is valid
+    """
     modes = ["keep-digits", "keep-stops", "keep-symbols"]
     modesStr = ", ".join(modes)
     
@@ -104,10 +149,18 @@ def validMode():
         return True
 
 def getMode():
+    """ Returns the command line mode. Returns empty string if no command line mode was inputted.
+
+    Arguments:
+        none
+
+    Returns:
+        (str): String of command line mode. If no mode specified, returns empty string.
+    """
     try:
         return sys.argv[1]
     except IndexError:
-        return None
+        return ""
 
 
 
@@ -117,19 +170,23 @@ if __name__ == "__main__":
     # using "python3 preprocess.py". This is directly relevant 
     # to this exercise, so you should call your code from here.
 
-    if not validMode():
+    # If user selected option is not valid exit program
+    if not isValidMode():
         sys.exit()
 
-
+    # Get inputted words and given mode
     words = getWords()
     mode = getMode()
     processedWordsList = []
+
+    # Perform preprocessing on words one by one
     for word in words:
         processedWord = preProcessWord(word, mode)
 
+        # Add preprocessed word to the list if it is not empty string
         if processedWord:
             processedWordsList.append(processedWord)
 
+    # Output preprocessing results
     processedWords = " ".join(processedWordsList)
-
     print(processedWords)
