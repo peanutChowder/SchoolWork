@@ -1,0 +1,29 @@
+####################################################
+Jacob Feng, ID: 1591656
+CMPUT274, Fall 2021
+
+Weekly Exercise 4: Text Preprocessor 
+####################################################
+Description
+
+preprocessor.py is a self contained program that must be run from the command line with the format 'python3 preprocessor.py [mode]', where mode is an optional parameter. 
+
+The program performs preprocessing by taking in via input() a space delimited line of words. The words are converted to lowercase, then any symbolic characters (including punctuation) are removed. 
+Additionally, any numbers are removed from words unless the word itself is only composed of numeric digits. Finally, if the word is a stopword, it is removed altogether. The list of stopwords is
+hardcoded into the preprocessor.py file. 
+
+The program has 3 options where symbol removal, number removal, or stopword removal can be disabled.
+
+####################################################
+Requirements 
+
+The input text is expected to be pipelined into the command line program execution, or typed into a line during the program execution
+
+The program cannot deal with multiline strings
+	- words are expected to be inputted via a single line
+	- words are also expected to be split by a space
+
+Modes must be typed exactly as specified following the program call
+	- modes are case and space sensitive
+
+####################################################
