@@ -219,6 +219,12 @@ class ClassifyByTarget(C274):
         return
 
 
+class ClassifyByTopN(ClassifyByTarget):
+    def __init__(self, lw=[]):
+        super().__init__(lw=lw)
+
+    # TODO: left off at Task 2 step 3
+
 class TrainingInstance(C274):
     def __init__(self):
         super().__init__() # Call superclass
@@ -474,6 +480,13 @@ class TrainingSet(C274):
             ti.process_input_line(line, run=run)
             self.inObjHash.append(ti)
         return
+
+    def preprocess(self, mode=''):
+        instances = self.get_instances()
+
+        for instance in instances:
+            instance.preprocess_words(mode)
+
 
 
 # Very basic test of functionality
