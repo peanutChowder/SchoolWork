@@ -223,7 +223,12 @@ class ClassifyByTopN(ClassifyByTarget):
     def __init__(self, lw=[]):
         super().__init__(lw=lw)
 
-    # TODO: left off at Task 2 step 3
+    def target_top_n(tset, num=5, label=''):
+        ti_list = tset.get_instances()
+
+        for ti in ti_list:
+            ti.get_words()
+            # TODO: leftoff
 
 class TrainingInstance(C274):
     def __init__(self):
