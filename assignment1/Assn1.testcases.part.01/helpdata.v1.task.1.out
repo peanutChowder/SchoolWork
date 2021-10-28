@@ -56,49 +56,49 @@ Recall:    0.56 = 9 / (9 + 7)
 -------- Print Config --------
 TargetWords (5): ['911', 'bad', 'get', 'help', 'on']
 -------- Evaluate Training Set --------
-TW FN: (  #negative) #help well
+TW FN: (  #negative) #help feeling well
+TW TP: (       help) #help call help
 TW TP: (       help) #help help
-TW FN: (  #negative) #help 
-TW FN: (  #negative) #help son
-TW FN: (  #negative) #help daughter
-TW FN: (  #negative) #help wife
-TW FN: (  #negative) #help husband
-TW TP: (        bad) #help bad
-TW FN: (  #negative) #help stuck
-TW TP: (        911) #help 911
-TW FN: (  #negative) #help dizzy
-TW FN: (  #negative) #help 
-TW FN: (  #negative) #help well
-TW TP: (       help) #help help
-TW FN: (  #negative) #help 
+TW TP: (        get) #help get son
+TW TP: (        get) #help get daughter
+TW TP: (        get) #help get wife
+TW TP: (        get) #help get husband
+TW TP: (        bad) #help im feeling really bad
+TW FN: (  #negative) #help im stuck
+TW TP: (        911) #help call 911
+TW FN: (  #negative) #help feel dizzy
+TW FN: (  #negative) #help need lie
+TW FN: (  #negative) #help feel well
+TW TP: (       help) #help need help
+TW FN: (  #negative) #help feel little
 TW FN: (  #negative) #help headache
-TW TN: (  #negative) #negative lights
-TW TN: (  #negative) #negative lamp
-TW TN: (  #negative) #negative radio
+TW TN: (  #negative) #negative turn lights
+TW TN: (  #negative) #negative turn lamp
+TW TN: (  #negative) #negative want listen radio
+TW TN: (  #negative) #negative time
 TW TN: (  #negative) #negative 
-TW TN: (  #negative) #negative 
-TW TN: (  #negative) #negative 
-TW TN: (  #negative) #negative tired
-TW TN: (  #negative) #negative hurt
-TW TN: (  #negative) #negative alone
-TW TN: (  #negative) #negative 
-TW TN: (  #negative) #negative hurt
-TW TN: (  #negative) #negative broken
+TW TN: (  #negative) #negative feel
+TW TN: (  #negative) #negative bit tired
+TW TN: (  #negative) #negative feet hurt
+TW TN: (  #negative) #negative leave alone
+TW TN: (  #negative) #negative stop bothering
+TW TN: (  #negative) #negative knees hurt
+TW TN: (  #negative) #negative phone broken
 TW TN: (  #negative) #negative fine
 TW TN: (  #negative) #negative ok
 TW FP: (        bad) #negative bad
 TW TN: (  #negative) #negative fine
 TW TN: (  #negative) #negative 
-TW TN: (  #negative) #negative work
+TW FP: (        get) #negative cant get work
 TW TN: (  #negative) #negative ouch
 TW TN: (  #negative) #negative hello
-TW FP: (       help) #negative help
+TW FP: (       help) #negative need help
 -------- Confusion Matrix --------
    Predict |         Label
 -----------+----------------------
            |      #help        not
-     #help |          4          2
-       not |         12         19
-Accuracy:  0.62 = (4 + 19) / (4 + 19 + 2 + 12)
-Precision: 0.67 = 4 / (4 + 2)
-Recall:    0.25 = 4 / (4 + 12)
+     #help |          9          3
+       not |          7         18
+Accuracy:  0.73 = (9 + 18) / (9 + 18 + 3 + 7)
+Precision: 0.75 = 9 / (9 + 3)
+Recall:    0.56 = 9 / (9 + 7)

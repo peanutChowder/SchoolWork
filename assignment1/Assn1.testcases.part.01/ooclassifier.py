@@ -307,10 +307,10 @@ class TrainingInstance(C274):
         # Perform preprocessing on words one by one
         for word in words:
             processed_word = self.preprocess_word(word, mode)
-
-        # Add preprocessed word to the list if it is not empty string
-        if processed_word:
-            processed_words.append(processed_word)
+            
+            # Add preprocessed word to the list if it is not empty string
+            if processed_word:
+                processed_words.append(processed_word)
 
         self.set_words(processed_words)
 
