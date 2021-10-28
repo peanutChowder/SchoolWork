@@ -310,7 +310,7 @@ class TrainingInstance(C274):
 
         # Add preprocessed word to the list if it is not empty string
         if processed_word:
-            processed_word.append(processed_word)
+            processed_words.append(processed_word)
 
         self.set_words(processed_words)
 
