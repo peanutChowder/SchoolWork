@@ -8,7 +8,7 @@ import copy     # for deepcopy()
 # What we might do to test your code
 from ooclassifier import *
 
-Debug = True   # Sometimes, print for debugging
+Debug = False   # Sometimes, print for debugging
 
 def main():
     tset = TrainingSet()        # Existing class from base
