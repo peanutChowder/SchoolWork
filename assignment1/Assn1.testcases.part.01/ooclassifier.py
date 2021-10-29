@@ -222,13 +222,51 @@ class ClassifyByTarget(C274):
 class ClassifyByTopN(ClassifyByTarget):
     def __init__(self, lw=[]):
         super().__init__(lw=lw)
+        self.freq_dict = {}
+        self.descend_values = []
 
-    def target_top_n(tset, num=5, label=''):
-        ti_list = tset.get_instances()
+    def target_top_n(self, tset, num=5, label=''):
+        most_common = []
+        
+        self.set_freq_dict(tset.get_instances())
 
+        # TODO: test target_top_n
+        # TODO: implement label filtering in this method
+        count = 0
+        freq = 0
+        while count < num or self.common_tie(freq):
+            word, freq = self.get_top_common()
+            most_common.append(word)
+            
+
+    def get_top_common(self):
+        for key in self.freq_dict:
+            value = self.descend_values[0]
+            if self.freq_dict[key] == value:
+                self.descend_values.pop(0)
+                self.freq_dict.pop(key)
+
+                return key, value
+
+    def common_tie(self, last_common):
+        return last_common in self.freq_dict.values()
+
+    def set_descending_freq(self):
+        self.descend_values = sorted(self.freq_dict.values(), reverse=True)
+            
+
+    def set_freq_dict(self, ti_list):
         for ti in ti_list:
-            ti.get_words()
-            # TODO: leftoff
+            inst_words = ti.get_words()
+
+            for word in inst_words:
+
+                    if word not in self.freq_dict.values():
+                        self.freq_dict[word] = 1
+
+                    else:
+                        self.freq_dict[word] += 1
+
 
 class TrainingInstance(C274):
     def __init__(self):
