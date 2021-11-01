@@ -540,71 +540,110 @@ class TrainingSet(C274):
 
     def add_training_set(self, tset):
         ti_list = copy.deepcopy(tset.get_instances())
+        line_list = copy.deepcopy(tset.get_lines())
         self.set_instances(ti_list)
+        self.set_lines(line_list)
 
     def return_nfolds(self, num=3):
         folded_ts_list = []
-        ti_len = len(self.get_instances())
+        ti_list = self.get_instances()
+        lines_list = self.get_lines()
+        ti_len = len(ti_list)
         
         fold_indices = self.return_fold_indices(ti_len, num)
+        
 
-        for i in range(num):
+        for sub_fold in fold_indices:
             ts_fold = self.copy()
 
-            start = fold_indices[i]
-            stop = fold_indices[i + 1]
-            ti_fold = ts_fold.get_instances()[start: stop]
-            ts_fold.set_instances(ti_fold)
+            ts_fold.set_instances([])
+            ts_fold.set_lines([])
+
+            for fold in sub_fold:
+                ts_fold.add_instance(ti_list[fold])
+                ts_fold.add_line(lines_list[fold])
 
             folded_ts_list.append(ts_fold)
-
+                
         return folded_ts_list
+        # for i in range(num):
+        #     ts_fold = self.copy()
 
+        #     start = fold_indices[i]
+        #     stop = fold_indices[i + 1]
 
+        #     ti_fold = ts_fold.get_instances()[start: stop]
+        #     lines_fold = ts_fold.get_lines()[start: stop]
+
+        #     ts_fold.set_instances(ti_fold)
+        #     ts_fold.set_lines(lines_fold)
+
+        #     folded_ts_list.append(ts_fold)
+
+        # return folded_ts_list
 
     def return_fold_indices(self, ti_len, num):
-        fold_indices = []
+        fold_indices = [[] for i in range(num)]
+        increment = ti_len // num 
 
-        dividend = self.return_closest_dividend(ti_len, num)
-        increment = dividend // num + 1
-        off_by_n = abs(dividend - ti_len)
+        if ti_len % num != 0:
+            increment += 1
 
         i = 0
-        if off_by_n:
-            for _ in range(off_by_n):
-                fold_indices.append(i)
-                i += increment
+        for j in range(ti_len):
+            fold_indices[i].append(j)
 
-        increment -= 1
-
-        for _ in range(num - off_by_n):
-            fold_indices.append(i)
-            i += increment
-
-
-
-
-        fold_indices.append(ti_len)
+            i = (i + 1) % num
 
         return fold_indices
 
-    def return_closest_dividend(self, ti_len, num):
-        minDifference = num
-        dividend = None
-        for i in range(ti_len - num, ti_len + num):
-            if i % num != 0:
-                pass
-            else:
-                if abs(i - ti_len) < minDifference:
-                    dividend = i 
-                    minDifference = abs(i - ti_len)
+    # def return_fold_indices(self, ti_len, num):
+    #     fold_indices = []
 
-        return dividend
+    #     dividend = self.return_closest_dividend(ti_len, num)
+    #     increment = dividend // num + 1
+    #     off_by_n = abs(dividend - ti_len)
+
+    #     i = 0
+    #     if off_by_n:
+    #         for _ in range(off_by_n):
+    #             fold_indices.append(i)
+    #             i += increment
+
+    #     increment -= 1
+
+    #     for _ in range(num - off_by_n):
+    #         fold_indices.append(i)
+    #         i += increment
+
+    #     fold_indices.append(ti_len)
+
+    #     return fold_indices
+
+    # def return_closest_dividend(self, ti_len, num):
+    #     minDifference = num
+    #     dividend = None
+    #     for i in range(ti_len - num, ti_len + num):
+    #         if i % num != 0:
+    #             pass
+    #         else:
+    #             if abs(i - ti_len) < minDifference:
+    #                 dividend = i 
+    #                 minDifference = abs(i - ti_len)
+
+    #     return dividend
+
+    def add_instance(self, ti):
+        self.inObjHash.append(ti)
+
+    def add_line(self, line):
+        self.inObjList.append(line)
 
     def set_instances(self, ti_list):
         self.inObjHash = ti_list
 
-
+    def set_lines(self, line_list):
+        self.inObjList = line_list
 
 
 # Very basic test of functionality
