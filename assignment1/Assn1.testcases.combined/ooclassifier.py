@@ -259,6 +259,7 @@ class ClassifyByTopN(ClassifyByTarget):
             
 
     def set_freq_dict(self, ti_list, label):
+        self.freq_dict = {}
         for ti in ti_list:
             if ti.get_label() == label:
                 inst_words = ti.get_words()
@@ -541,8 +542,8 @@ class TrainingSet(C274):
     def add_training_set(self, tset):
         ti_list = copy.deepcopy(tset.get_instances())
         line_list = copy.deepcopy(tset.get_lines())
-        self.set_instances(ti_list)
-        self.set_lines(line_list)
+        self.inObjHash += ti_list
+        self.inObjList += line_list
 
     def return_nfolds(self, num=3):
         folded_ts_list = []
