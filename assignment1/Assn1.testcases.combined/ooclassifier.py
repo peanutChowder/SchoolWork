@@ -226,6 +226,17 @@ class ClassifyByTopN(ClassifyByTarget):
         self.descend_values = []
 
     def target_top_n(self, tset, num=5, label=''):
+        """ Finds and sets target words to the num most common words in the given TrainingSet. Note that the len of target words
+        may exceed num in cases where there are ties between word frequencies.
+        
+        Arguments:
+            tset (TrainingSet): TrainingSet object used to obtain target words
+            num (int): Minimum len of target words. len exceeds num if there is a tie between how frequently some n words appear.
+            label (str): Label to look for target words in. If label does not match within a TrainingInstance, its words are excluded.
+            
+        Returns:
+            none
+        """
         most_common = []
         
         self.set_freq_dict(tset.get_instances(), label)
@@ -242,6 +253,14 @@ class ClassifyByTopN(ClassifyByTarget):
         self.set_target_words(most_common)
             
     def get_top_common(self):
+        """ Obtains and returns tuple of the word with the current greatest frequency found in self.freq_dict.
+        
+        Arguments:
+            none
+            
+        Returns:
+            (str, int): Tuple of str word and its int frequency
+        """
         value = self.descend_values[0]
 
         for key in self.freq_dict:
@@ -252,13 +271,38 @@ class ClassifyByTopN(ClassifyByTarget):
                 return key, value
 
     def common_tie(self, last_common):
+        """ Checks whether there is a tie in frequency between the previous word and any of the words in self.freq_dict.
+        
+        Arguments:
+            last_common (int): Frequency count of the previous word.
+            
+        Returns:
+            (bool): bool representing whether there is a tie of frequency
+        """
         return last_common in self.freq_dict.values()
 
     def set_descending_freq(self):
+        """ Sets self.descend_values to a descending list of all the values within the self.freq_dict dictionary.
+        
+        Arguments:
+            none
+            
+        Returns:
+            none
+        """
         self.descend_values = sorted(self.freq_dict.values(), reverse=True)
             
-
     def set_freq_dict(self, ti_list, label):
+        """ Collects all words within the given list of TrainingInstance objects and stores them ina dictionary with key-value
+        pairs of [word]: [frequency]. 
+        
+        Arguments:
+            ti_list (list): List of TrainingInstance objects
+            label (str): String of TrainingInstance label to look for
+            
+        Returns:
+            none
+        """
         self.freq_dict = {}
         for ti in ti_list:
             if ti.get_label() == label:
@@ -344,6 +388,15 @@ class TrainingInstance(C274):
         return(self)
 
     def preprocess_words(self, mode=''):
+        """ Performs preprocessing on list of words contained in self.inst['words']. Preprocessing occurs word-by-word via helper
+        method 'preprocess_word(word, mode)'.
+        
+        Arguments:
+            mode (str): string of the specific preprocessing mode to use
+            
+        Returns:
+            none
+        """
         words = self.get_words()
         processed_words = []
 
@@ -370,7 +423,6 @@ class TrainingInstance(C274):
             word (str): string of the preprocessed word or an empty string if the given word argument is a stopword and keep-stops mode
                         is not selected
         """
-        # TODO: confirm that mode verificaiton ISNT required
         # Turn all chars to lowercase in word if possible
         word = word.lower()
 
@@ -530,22 +582,57 @@ class TrainingSet(C274):
         return
 
     def preprocess(self, mode=''):
+        """ Calls training instances within self to perform preprocessing on each of their respective list of words.
+
+        Arguments:
+            mode (str): string of the specific preprocessing mode to use
+            
+        Returns:
+            none
+
+        """
         instances = self.get_instances()
 
         for instance in instances:
             instance.preprocess_words(mode)
 
     def copy(self):
+        """ Returns a deepcopy of the object from which copy is invoked from.
+        
+        Arguments:
+            none
+            
+        Returns:
+            ts_copy (TrainingSet): deepcopy of self
+        """
         ts_copy = copy.deepcopy(self)
         return ts_copy
 
     def add_training_set(self, tset):
+        """ Creates deepcopy of given TrainingSet object's lines and TrainingInstance objects and appends 
+        to self's respective list attribute.
+        
+        Arguments:
+            tset (TrainingSet): TrainingInstance object to add instances and lines from
+            
+        Returns:
+            none
+        """
         ti_list = copy.deepcopy(tset.get_instances())
         line_list = copy.deepcopy(tset.get_lines())
         self.inObjHash += ti_list
         self.inObjList += line_list
 
     def return_nfolds(self, num=3):
+        """ Performs round robin folding via creating num copies of self and allocating a different section of TrainingInstance
+        objects to each respective copy.
+        
+        Arguments:
+            num (int): Number of folds 
+            
+        Returns:
+            folded_ts_list (list): List containing num TrainingSet objects with respective folds
+        """
         folded_ts_list = []
         ti_list = self.get_instances()
         lines_list = self.get_lines()
@@ -555,35 +642,33 @@ class TrainingSet(C274):
         
 
         for sub_fold in fold_indices:
+            # Allocate respective folds for each copy
             ts_fold = self.copy()
 
+            # Clear TrainingSet copy instance and line attrs
             ts_fold.set_instances([])
             ts_fold.set_lines([])
 
             for fold in sub_fold:
+                # Add TrainingInstance objects one by one to copy
                 ts_fold.add_instance(ti_list[fold])
                 ts_fold.add_line(lines_list[fold])
 
             folded_ts_list.append(ts_fold)
                 
         return folded_ts_list
-        # for i in range(num):
-        #     ts_fold = self.copy()
-
-        #     start = fold_indices[i]
-        #     stop = fold_indices[i + 1]
-
-        #     ti_fold = ts_fold.get_instances()[start: stop]
-        #     lines_fold = ts_fold.get_lines()[start: stop]
-
-        #     ts_fold.set_instances(ti_fold)
-        #     ts_fold.set_lines(lines_fold)
-
-        #     folded_ts_list.append(ts_fold)
-
-        # return folded_ts_list
 
     def return_fold_indices(self, ti_len, num):
+        """ Allocates a number of indices within the list of TrainingInstance objects to each fold. Indices are picked using a round robin
+        strategy. If ti_len does not fold evenly into num, then some sublists in fold_indices will contain one more or less indices. 
+        
+        Arguments:
+            ti_len (int): len of the list of TrainingInstance objects
+            num (int): Number of folds 
+            
+        Returns:
+            fold_indices (list): list containing num sublists which respectively contain the indicies of the TrainingInstance objects to select
+        """
         fold_indices = [[] for i in range(num)]
         increment = ti_len // num 
 
@@ -598,52 +683,48 @@ class TrainingSet(C274):
 
         return fold_indices
 
-    # def return_fold_indices(self, ti_len, num):
-    #     fold_indices = []
-
-    #     dividend = self.return_closest_dividend(ti_len, num)
-    #     increment = dividend // num + 1
-    #     off_by_n = abs(dividend - ti_len)
-
-    #     i = 0
-    #     if off_by_n:
-    #         for _ in range(off_by_n):
-    #             fold_indices.append(i)
-    #             i += increment
-
-    #     increment -= 1
-
-    #     for _ in range(num - off_by_n):
-    #         fold_indices.append(i)
-    #         i += increment
-
-    #     fold_indices.append(ti_len)
-
-    #     return fold_indices
-
-    # def return_closest_dividend(self, ti_len, num):
-    #     minDifference = num
-    #     dividend = None
-    #     for i in range(ti_len - num, ti_len + num):
-    #         if i % num != 0:
-    #             pass
-    #         else:
-    #             if abs(i - ti_len) < minDifference:
-    #                 dividend = i 
-    #                 minDifference = abs(i - ti_len)
-
-    #     return dividend
-
     def add_instance(self, ti):
+        """ Adds the given TrainingInstance object to self's list of instances.
+        
+        Arguments:
+            ti (TrainingInstance): TrainingInstance object to append 
+            
+        Returns:
+            none
+        """
         self.inObjHash.append(ti)
 
     def add_line(self, line):
+        """ Adds the given line to self's list of lines.
+        
+        Arguments:
+            line (str): str of the line to append to self
+            
+        Returns:
+            none
+        """
         self.inObjList.append(line)
 
     def set_instances(self, ti_list):
+        """ Sets the given list of TrainingInstance object(s) to self
+        
+        Arguments:
+            ti_list (list): New list of TrainingInstance objects to set
+            
+        Returns:
+            none
+        """
         self.inObjHash = ti_list
 
     def set_lines(self, line_list):
+        """ Sets the given list of lines to self
+        
+        Arguments:
+            line_list (list): New list of lines to set
+            
+        Returns:
+            none
+        """
         self.inObjList = line_list
 
 
