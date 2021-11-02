@@ -1,4 +1,11 @@
 # Copyright 2020-2021 Paul Lu
+#--------------------------------------------
+#   Name: Jacob Feng
+#   ID: 1591656
+#   CMPUT 274, Fall 2021
+#
+#   Assignment 1: Object-Oriented Classifier
+#-------------------------------------------- 
 import sys
 import copy     # for deepcopy()
 

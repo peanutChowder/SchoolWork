@@ -1,0 +1,24 @@
+####################################################
+Jacob Feng, ID: 1591656
+CMPUT274, Fall 2021
+
+Assignment #1: Object-Oriented Classifier
+####################################################
+Description
+
+ooclassifier.py contains an object-oriented classification algorithm that has the ability to obtain its own frequency-based classification targets. Additionally, it is capable of performing folding cross-validation. 
+
+ooclassifier.py performs preprocessing on a given text file that is either pipelined or entered manually into input. The preprocessing can be disabled via an optional mode parameter. It then searches for user-provided classification targets but this can be overwritten via selecting classification targets based on frequency.
+
+ooclassifier.py is a self contained program that may be ran from the command line. However, it is important to note full functionality is available by importing classes within ooclassifier.py
+
+####################################################
+Requirements 
+
+The input text is expected to be pipelined into the command line program execution, or typed into a line during the program execution
+
+The program expects an EOF signal at the end of input
+
+The provided text must follow the syntax of input processing. Classification targets are identified via certain text patterns.
+
+####################################################
