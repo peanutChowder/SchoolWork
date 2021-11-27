@@ -219,17 +219,6 @@ class ClassifyByTarget(C274):
         return
 
 
-class ClassifyByTopN(ClassifyByTarget):
-    def __init__(self, lw=[]):
-        super().__init__(lw=lw)
-
-    def target_top_n(tset, num=5, label=''):
-        ti_list = tset.get_instances()
-
-        for ti in ti_list:
-            ti.get_words()
-            # TODO: leftoff
-
 class TrainingInstance(C274):
     def __init__(self):
         super().__init__() # Call superclass
@@ -248,17 +237,6 @@ class TrainingInstance(C274):
 
     def get_words(self):
         return(self.inst["words"])
-
-    def set_words(self, wordList):
-        """ Sets and overrides the previous word list into the one provided.
-        
-        Arguments:
-            wordList (list): new list of words to set within instance
-            
-        Returns:
-            none
-        """
-        self.inst["words"] = wordList
 
     def set_class(self, theClass, tlabel="last", explain=""):
         # tlabel = tag label
@@ -299,123 +277,6 @@ class TrainingInstance(C274):
         if not (run is None):
             cl, e = run.classify(self, update=True, tlabel=tlabel)
         return(self)
-
-    def preprocess_words(self, mode=''):
-        words = self.get_words()
-        processed_words = []
-
-        # Perform preprocessing on words one by one
-        for word in words:
-            processed_word = self.preprocess_word(word, mode)
-
-        # Add preprocessed word to the list if it is not empty string
-        if processed_word:
-            processed_word.append(processed_word)
-
-        self.set_words(processed_words)
-
-    def preprocess_word(self, word, mode):
-        """ Performs preprocessing on a given word. When no mode is given, all symbols, stopwords, and numeric digits are removed
-        (unless the string is only composed of numeric digits). Symbol, stopword, and numeric digits can be turned off one at a time 
-        via the mode parameter. Note that the mode parameter must match a string literal exactly (i.e. case sensitive).
-
-        Arguments:
-            word (str): string of the word to perform preprocessing on
-            mode (str): string of the specific preprocessing mode to use
-
-        Returns:
-            word (str): string of the preprocessed word or an empty string if the given word argument is a stopword and keep-stops mode
-                        is not selected
-        """
-        # TODO: confirm that mode verificaiton ISNT required
-        # Turn all chars to lowercase in word if possible
-        word = word.lower()
-
-        # Remove symbol chars if keep-symbols mode off
-        if mode != "keep-symbols":
-            word = self.remove_symbols(word)
-
-        # Return entire token if completely composed of numbers
-        if self.is_str_num(word):
-            return word
-
-        # Return empty str if keep-symbols mode off and str is stopword
-        if mode != "keep-stops" and self.is_stopword(word):
-            return ""
-
-        # Remove all numbers from word if keep-digits mode is off
-        if mode != "keep-digits":
-            return self.remove_nums(word)
-        else:
-            return word
-
-    def remove_symbols(self, word):
-        """ Removes symbolic characters from a given string.
-
-        Arguments:
-            word (str): string of the word to remove symbols from
-
-        Returns:
-            noSymbolWord (str): new string of the given word without symbols
-        """
-        noSymbolWord = ""
-
-        for letter in word:
-            if letter.isalpha() or letter.isnumeric():
-                noSymbolWord += letter
-
-        return noSymbolWord
-            
-    def is_str_num(self, word):
-        """ Returns bool of whether the given string is fully composed of numeric digits.
-
-        Arguments:
-            word (str): string of the word to check
-
-        Returns:
-            (boolean): bool value of whether the string is only numeric digits"""
-        return word.isnumeric()
-
-    def is_stopword(self, word):
-        """ Returns bool of whether the given string parameter is a stopword. Note that the parameter must be in lowercase.
-
-        Arguments:
-            word (str): lowercase string of the word to check
-
-        Returns:
-            (boolean): bool value of whether the word is a stopword
-        """
-        stopwords = ["i", "me", "my", "myself", "we", "our", "ours", "ourselves", "you", "your", 
-            "yours", "yourself", "yourselves", "he", "him", "his", "himself", "she", "her", 
-            "hers", "herself", "it", "its", "itself", "they", "them", "their", "theirs", 
-            "themselves", "what", "which","who", "whom", "this", "that", "these", "those", 
-            "am", "is", "are", "was", "were", "be","been", "being", "have", "has", "had", 
-            "having", "do", "does", "did", "doing", "a", "an","the", "and", "but", "if", 
-            "or", "because", "as", "until", "while", "of", "at", "by", "for", "with", 
-            "about", "against", "between", "into", "through", "during", "before", "after", 
-            "above", "below", "to", "from", "up", "down", "in", "out", "on", "off", "over",
-            "under", "again", "further", "then", "once", "here", "there", "when", "where", 
-            "why", "how", "all", "any", "both", "each", "few", "more", "most", "other", 
-            "some", "such", "no", "nor", "not", "only", "own", "same", "so", "than", 
-            "too", "very", "s", "t", "can", "will", "just", "don", "should", "now"]
-
-        return word in stopwords
-
-    def remove_nums(self, word):
-        """ Removes all numeric digits from the given string.
-
-        Arguments:
-            word (str): string of the word to remove numeric digits from
-
-        Returns:
-            noNumWord (str): new string of the original word without numeric digits
-        """
-        noNumWord = ""
-        for letter in word:
-            if not letter.isnumeric():
-                noNumWord += letter
-
-        return noNumWord
 
 
 class TrainingSet(C274):
@@ -485,13 +346,6 @@ class TrainingSet(C274):
             ti.process_input_line(line, run=run)
             self.inObjHash.append(ti)
         return
-
-    def preprocess(self, mode=''):
-        instances = self.get_instances()
-
-        for instance in instances:
-            instance.preprocess_words(mode)
-
 
 
 # Very basic test of functionality

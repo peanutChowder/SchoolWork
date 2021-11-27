@@ -1,0 +1,209 @@
+readline:  % Credit:  Paul Lu, Copyright 2018-2020
+readline:  %pos-features help get bad 911 on
+readline:  %pos-label #help
+readline:  %
+readline:  #help		i am not feeling well
+readline:  #help		call for help
+readline:  #help		help me
+readline:  #help		get my son
+readline:  #help		get my daughter
+readline:  #help		get my wife
+readline:  #help		get my husband
+readline:  #help		i'm feeling really bad
+readline:  #help		i'm stuck
+readline:  #help		call 911
+readline:  #help		i feel dizzy
+readline:  #help		i need to lie down
+readline:  #help		i do not feel well
+readline:  #help		i need help
+readline:  #help		i feel a little off
+readline:  #help		i have a headache
+readline:  %
+readline:  %
+readline:  #negative	turn on lights
+readline:  #negative	turn on lamp
+readline:  #negative	i want to listen to the radio
+readline:  #negative	what time is it
+readline:  #negative	so so
+readline:  #negative	i feel so so
+readline:  #negative	just a bit tired
+readline:  #negative	my feet hurt
+readline:  #negative	leave me alone
+readline:  #negative	stop bothering to me
+readline:  #negative	my knees hurt
+readline:  #negative	my phone is broken
+readline:  #negative	i am fine
+readline:  #negative	i am ok
+readline:  #negative	not so bad
+readline:  #negative	all is fine
+readline:  #negative	how are you
+readline:  #negative	can't get this to work
+readline:  #negative	ouch
+readline:  #negative	hello
+readline:  #negative	i do not need help
+readline:  EOF
+--------------------------------------------
+pos-label:  #help
+NOTE: Not using any target words from the file itself
+--------------------------------------------
+-------- Print Training Set --------
+( #help) (#negative) #help		i am not feeling well
+--> ['i', 'am', 'not', 'feeling', 'well']
+( #help) (#negative) #help		call for help
+--> ['call', 'for', 'help']
+( #help) (#negative) #help		help me
+--> ['help', 'me']
+( #help) (#negative) #help		get my son
+--> ['get', 'my', 'son']
+( #help) (#negative) #help		get my daughter
+--> ['get', 'my', 'daughter']
+( #help) (#negative) #help		get my wife
+--> ['get', 'my', 'wife']
+( #help) (#negative) #help		get my husband
+--> ['get', 'my', 'husband']
+( #help) (#negative) #help		i'm feeling really bad
+--> ["i'm", 'feeling', 'really', 'bad']
+( #help) (#negative) #help		i'm stuck
+--> ["i'm", 'stuck']
+( #help) (#negative) #help		call 911
+--> ['call', '911']
+( #help) (#negative) #help		i feel dizzy
+--> ['i', 'feel', 'dizzy']
+( #help) (need) #help		i need to lie down
+--> ['i', 'need', 'to', 'lie', 'down']
+( #help) (#negative) #help		i do not feel well
+--> ['i', 'do', 'not', 'feel', 'well']
+( #help) (need) #help		i need help
+--> ['i', 'need', 'help']
+( #help) (#negative) #help		i feel a little off
+--> ['i', 'feel', 'a', 'little', 'off']
+( #help) (#negative) #help		i have a headache
+--> ['i', 'have', 'a', 'headache']
+( #negative) (on) #negative	turn on lights
+--> ['turn', 'on', 'lights']
+( #negative) (on) #negative	turn on lamp
+--> ['turn', 'on', 'lamp']
+( #negative) (#negative) #negative	i want to listen to the radio
+--> ['i', 'want', 'to', 'listen', 'to', 'the', 'radio']
+( #negative) (#negative) #negative	what time is it
+--> ['what', 'time', 'is', 'it']
+( #negative) (#negative) #negative	so so
+--> ['so', 'so']
+( #negative) (#negative) #negative	i feel so so
+--> ['i', 'feel', 'so', 'so']
+( #negative) (#negative) #negative	just a bit tired
+--> ['just', 'a', 'bit', 'tired']
+( #negative) (#negative) #negative	my feet hurt
+--> ['my', 'feet', 'hurt']
+( #negative) (#negative) #negative	leave me alone
+--> ['leave', 'me', 'alone']
+( #negative) (#negative) #negative	stop bothering to me
+--> ['stop', 'bothering', 'to', 'me']
+( #negative) (#negative) #negative	my knees hurt
+--> ['my', 'knees', 'hurt']
+( #negative) (#negative) #negative	my phone is broken
+--> ['my', 'phone', 'is', 'broken']
+( #negative) (#negative) #negative	i am fine
+--> ['i', 'am', 'fine']
+( #negative) (#negative) #negative	i am ok
+--> ['i', 'am', 'ok']
+( #negative) (#negative) #negative	not so bad
+--> ['not', 'so', 'bad']
+( #negative) (#negative) #negative	all is fine
+--> ['all', 'is', 'fine']
+( #negative) (#negative) #negative	how are you
+--> ['how', 'are', 'you']
+( #negative) (#negative) #negative	can't get this to work
+--> ["can't", 'get', 'this', 'to', 'work']
+( #negative) (#negative) #negative	ouch
+--> ['ouch']
+( #negative) (#negative) #negative	hello
+--> ['hello']
+( #negative) (need) #negative	i do not need help
+--> ['i', 'do', 'not', 'need', 'help']
+-------- Print Config --------
+TargetWords (29): ['-40', 'boots', 'cold', 'coming', 'day', 'fog', 'hope', 'jackets', 'need', 'nice', 'on', 'out', 'outside', 'perfect', 'pretty', 'rain', 'raining', 'snow', 'snowing', 'summer', 'sun', 'sunny', 'today', 'warm', 'was', 'weather', 'windy', 'winter', 'wish']
+-------- Print Run Info --------
+All words:126.  Target words:  5
+Non-Target words (66): ['911', 'a', 'all', 'alone', 'am', 'are', 'bad', 'bit', 'bothering', 'broken', 'call', "can't", 'daughter', 'dizzy', 'do', 'down', 'feel', 'feeling', 'feet', 'fine', 'for', 'get', 'have', 'headache', 'hello', 'help', 'how', 'hurt', 'husband', 'i', "i'm", 'is', 'it', 'just', 'knees', 'lamp', 'leave', 'lie', 'lights', 'listen', 'little', 'me', 'my', 'not', 'off', 'ok', 'ouch', 'phone', 'radio', 'really', 'so', 'son', 'stop', 'stuck', 'the', 'this', 'time', 'tired', 'to', 'turn', 'want', 'well', 'what', 'wife', 'work', 'you']
+-------- Evaluate Training Set --------
+TW FN: (  #negative) #help i am not feeling well
+--> ['i', 'am', 'not', 'feeling', 'well']
+TW FN: (  #negative) #help call for help
+--> ['call', 'for', 'help']
+TW FN: (  #negative) #help help me
+--> ['help', 'me']
+TW FN: (  #negative) #help get my son
+--> ['get', 'my', 'son']
+TW FN: (  #negative) #help get my daughter
+--> ['get', 'my', 'daughter']
+TW FN: (  #negative) #help get my wife
+--> ['get', 'my', 'wife']
+TW FN: (  #negative) #help get my husband
+--> ['get', 'my', 'husband']
+TW FN: (  #negative) #help i'm feeling really bad
+--> ["i'm", 'feeling', 'really', 'bad']
+TW FN: (  #negative) #help i'm stuck
+--> ["i'm", 'stuck']
+TW FN: (  #negative) #help call 911
+--> ['call', '911']
+TW FN: (  #negative) #help i feel dizzy
+--> ['i', 'feel', 'dizzy']
+TW TP: (       need) #help i need to lie down
+--> ['i', 'need', 'to', 'lie', 'down']
+TW FN: (  #negative) #help i do not feel well
+--> ['i', 'do', 'not', 'feel', 'well']
+TW TP: (       need) #help i need help
+--> ['i', 'need', 'help']
+TW FN: (  #negative) #help i feel a little off
+--> ['i', 'feel', 'a', 'little', 'off']
+TW FN: (  #negative) #help i have a headache
+--> ['i', 'have', 'a', 'headache']
+TW FP: (         on) #negative turn on lights
+--> ['turn', 'on', 'lights']
+TW FP: (         on) #negative turn on lamp
+--> ['turn', 'on', 'lamp']
+TW TN: (  #negative) #negative i want to listen to the radio
+--> ['i', 'want', 'to', 'listen', 'to', 'the', 'radio']
+TW TN: (  #negative) #negative what time is it
+--> ['what', 'time', 'is', 'it']
+TW TN: (  #negative) #negative so so
+--> ['so', 'so']
+TW TN: (  #negative) #negative i feel so so
+--> ['i', 'feel', 'so', 'so']
+TW TN: (  #negative) #negative just a bit tired
+--> ['just', 'a', 'bit', 'tired']
+TW TN: (  #negative) #negative my feet hurt
+--> ['my', 'feet', 'hurt']
+TW TN: (  #negative) #negative leave me alone
+--> ['leave', 'me', 'alone']
+TW TN: (  #negative) #negative stop bothering to me
+--> ['stop', 'bothering', 'to', 'me']
+TW TN: (  #negative) #negative my knees hurt
+--> ['my', 'knees', 'hurt']
+TW TN: (  #negative) #negative my phone is broken
+--> ['my', 'phone', 'is', 'broken']
+TW TN: (  #negative) #negative i am fine
+--> ['i', 'am', 'fine']
+TW TN: (  #negative) #negative i am ok
+--> ['i', 'am', 'ok']
+TW TN: (  #negative) #negative not so bad
+--> ['not', 'so', 'bad']
+TW TN: (  #negative) #negative all is fine
+--> ['all', 'is', 'fine']
+TW TN: (  #negative) #negative how are you
+--> ['how', 'are', 'you']
+TW TN: (  #negative) #negative can't get this to work
+--> ["can't", 'get', 'this', 'to', 'work']
+TW TN: (  #negative) #negative ouch
+--> ['ouch']
+TW TN: (  #negative) #negative hello
+--> ['hello']
+TW FP: (       need) #negative i do not need help
+--> ['i', 'do', 'not', 'need', 'help']
+-------- Confusion Matrix --------
+   Predict |         Label
+-----------+----------------------
+           |      #help        not
+     #help |          2          3
+       not |         14         18
