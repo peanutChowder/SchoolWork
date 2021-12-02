@@ -14,7 +14,9 @@ def read_tree(tree_stream):
     Returns:
       A Huffman tree root constructed according to the given description.
     '''
-    pass
+    treeNode = pickle.load(tree_stream)
+
+    return treeNode
 
 def decode_byte(tree, bitreader):
     """
@@ -71,3 +73,10 @@ def compress(tree, uncompressed, compressed):
           and the coded input data.
     '''
     pass
+
+if __name__ == "__main__":
+  fileName = "test.1.txt.huf.answer"
+  with open(fileName, "rb") as compressed:
+    print(read_tree(compressed))
+    print("-----------------------------")
+      
