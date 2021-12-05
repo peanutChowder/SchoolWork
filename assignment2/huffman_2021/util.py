@@ -16,6 +16,7 @@ def read_tree(tree_stream):
     '''
     treeNode = pickle.load(tree_stream)
 
+
     return treeNode
 
 def decode_byte(tree, bitreader):
@@ -31,7 +32,17 @@ def decode_byte(tree, bitreader):
     Returns:
       Next byte of the compressed bit stream.
     """
-    pass
+    if type(tree).__name__ == "TreeLeaf":
+      return tree.getValue()
+
+    bit = bitreader.readbit()
+
+    if bit == 0:
+      return decode_byte(tree.getLeft(), bitreader)
+
+    else:
+      return decode_byte(tree.getRight(), bitreader)
+
 
 
 def decompress(compressed, uncompressed):
@@ -45,7 +56,20 @@ def decompress(compressed, uncompressed):
       uncompressed: A writable file stream to which the uncompressed
           output is written.
     '''
-    pass
+    treeRoot = read_tree(compressed)
+
+    bitreader = bitio.BitReader(compressed)
+    bitwriter = bitio.BitWriter(uncompressed)
+    EOF = False
+
+    try:
+      while not EOF:
+        decoded_byte = decode_byte(treeRoot, bitreader)
+        bitwriter.writebits(bytes(decoded_byte), 8)
+        bitwriter.flush()
+
+    except EOFError:
+      EOF = True
 
 def write_tree(tree, tree_stream):
     '''Write the specified Huffman tree to the given tree_stream
@@ -75,8 +99,10 @@ def compress(tree, uncompressed, compressed):
     pass
 
 if __name__ == "__main__":
-  fileName = "test.1.txt.huf.answer"
-  with open(fileName, "rb") as compressed:
-    print(read_tree(compressed))
-    print("-----------------------------")
+  filename = "test.1.txt.huf.answer"
+  with open(filename, 'rb') as compressed:
+        with open(filename+'.decomp', 'wb') as uncompressed:
+                decompress(compressed, uncompressed)
+
+
       
