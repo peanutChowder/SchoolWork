@@ -2,7 +2,6 @@ import bitio
 import huffman
 import pickle
 
-
 def read_tree(tree_stream):
     '''Read a description of a Huffman tree from the given compressed
     tree stream, and use the pickle module to construct the tree object.
@@ -62,14 +61,18 @@ def decompress(compressed, uncompressed):
     bitwriter = bitio.BitWriter(uncompressed)
     EOF = False
 
-    try:
-      while not EOF:
+    while not EOF:
+      try:
         decoded_byte = decode_byte(treeRoot, bitreader)
-        bitwriter.writebits(bytes(decoded_byte), 8)
-        bitwriter.flush()
+        if decoded_byte:
+          bitwriter.writebits(decoded_byte, 8)
+        else:
+          EOF = True
 
-    except EOFError:
-      EOF = True
+      except EOFError:
+        EOF = True
+
+      bitwriter.flush()
 
 def write_tree(tree, tree_stream):
     '''Write the specified Huffman tree to the given tree_stream
@@ -79,7 +82,7 @@ def write_tree(tree, tree_stream):
       tree: A Huffman tree.
       tree_stream: The binary file to write the tree to.
     '''
-    pass
+    pickle.dump(tree, tree_stream)
 
 def compress(tree, uncompressed, compressed):
     '''First write the given tree to the stream 'compressed' using the
@@ -96,13 +99,38 @@ def compress(tree, uncompressed, compressed):
       compressed: A file stream that will receive the tree description
           and the coded input data.
     '''
-    pass
+    write_tree(tree, compressed)
+    encoding_table = huffman.make_encoding_table(tree)
+    bitreader = bitio.BitReader(uncompressed)
+    bitwriter = bitio.BitWriter(compressed)
+
+    EOF = False
+    while not EOF:
+      try:
+        uncompressed_byte = bitreader.readbits(8)
+        encoded_byte_tuple = encoding_table[uncompressed_byte]
+
+      except EOFError:
+        encoded_byte_tuple = encoding_table[None]
+        EOF = True
+
+      for bit in encoded_byte_tuple:
+        bitwriter.writebit(bit)
+    bitwriter.flush()
 
 if __name__ == "__main__":
-  filename = "test.1.txt.huf.answer"
-  with open(filename, 'rb') as compressed:
-        with open(filename+'.decomp', 'wb') as uncompressed:
-                decompress(compressed, uncompressed)
+  filename = "test.1.txt"
+  # with open(filename, 'rb') as compressed:
+  #       with open(filename+'.decomp', 'wb') as uncompressed:
+  #               decompress(compressed, uncompressed)
+
+  with open(filename, 'rb') as uncompressed:
+        freqs = huffman.make_freq_table(uncompressed)
+
+        tree = huffman.make_tree(freqs)
+        uncompressed.seek(0)
+        with open(filename+'.huf', 'wb') as compressed:
+                compress(tree, uncompressed, compressed)
 
 
       
