@@ -31,7 +31,7 @@ def decode_byte(tree, bitreader):
     Returns:
       Next byte of the compressed bit stream.
     """
-    if type(tree).__name__ == "TreeLeaf":
+    if isinstance(tree, huffman.TreeLeaf):
       return tree.getValue()
 
     bit = bitreader.readbit()
@@ -72,7 +72,7 @@ def decompress(compressed, uncompressed):
       except EOFError:
         EOF = True
 
-      bitwriter.flush()
+    bitwriter.flush()
 
 def write_tree(tree, tree_stream):
     '''Write the specified Huffman tree to the given tree_stream
@@ -114,12 +114,13 @@ def compress(tree, uncompressed, compressed):
         encoded_byte_tuple = encoding_table[None]
         EOF = True
 
-      for bit in encoded_byte_tuple:
-        bitwriter.writebit(bit)
+      finally:
+        for bit in encoded_byte_tuple:
+          bitwriter.writebit(bit)
     bitwriter.flush()
 
 if __name__ == "__main__":
-  filename = "test.1.txt"
+  filename = "arrow.png"
   # with open(filename, 'rb') as compressed:
   #       with open(filename+'.decomp', 'wb') as uncompressed:
   #               decompress(compressed, uncompressed)
