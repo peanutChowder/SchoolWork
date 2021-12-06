@@ -64,7 +64,7 @@ def decompress(compressed, uncompressed):
     while not EOF:
       try:
         decoded_byte = decode_byte(treeRoot, bitreader)
-        if decoded_byte:
+        if decoded_byte != None:
           bitwriter.writebits(decoded_byte, 8)
         else:
           EOF = True
