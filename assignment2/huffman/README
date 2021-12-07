@@ -1,0 +1,26 @@
+####################################################
+Jacob Feng, ID: 1591656
+CMPUT274, Fall 2021
+
+Assignment 2: Huffman Encoding
+####################################################
+Description
+
+util.py contains two primary functions: compress and decompress. Within compress, huffman coding is used to build a frequency tree. The tree is used to build a dictionary of raw and compressed key value pairs. By storing the tree and encoded values within a secondary file, the same information can be saved and transmitted at a fraction of the size.
+
+On the receiving end, one may use decompress on a .huf compressed file via accessing the tree (stored at the start of the .huf file) to decode the rest of the file.
+
+util.py is a command line utility that depends on huffman.py, bitio.py and the pickle module. Filenames for compression/decompression are entered as command line arguments following the util.py call.
+
+####################################################
+Limitations 
+
+The file to compress or decompress should be inputted via command line argument
+
+util.py with its current implementation can only be used as a command line utility
+
+util.py is not meant to be used with already compressed formats (e.g. mp3). Resulting files may be larger than the original size.
+
+Additional files huffman.py and bitio.py are expected to be in the same directory as util.py. Additionally, the pickle module should be installed.
+
+####################################################
